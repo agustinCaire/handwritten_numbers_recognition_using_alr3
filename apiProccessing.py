@@ -130,27 +130,17 @@ def processQuery(base64image):
 
     nn = logic.calculateDistances(data,samples,vector, 3)
     
-
     skeletons = np.load("data/skeletons.npy")
+    
     result = list()
-
-
     for i in range(len(nn)): 
-        output = io.BytesIO()
-        img = Image.fromarray(arrayToPILImage(skeletons[nn[i][0]]), 'L')
-        img.save(output, format='PNG')
-        result.append(base64.b64encode(output.getvalue()).decode('utf-8'))
-
-    output = io.BytesIO()
-    img = Image.fromarray(arrayToPILImage(querySkel), 'L')
-    img.save(output, format='PNG')
-    querySkel = base64.b64encode(output.getvalue()).decode('utf-8')
+        result.append(imgToBase64(skeletons[nn[i][0]]))
+      
+    querySkelBase64 = imgToBase64(querySkel)
 
     resultLabel = nn[0][1]
     d = defaultdict(float)
     dc = defaultdict(int)
-
-
     for x in range(0,len(nn)):
             dc[labels[nn[x][0]]] += 1
             d[labels[nn[x][0]]] += nn[x][1] + x*0.01
@@ -158,21 +148,20 @@ def processQuery(base64image):
             if(dc[x] > 0):
                 d[x] /= dc[x]
 
+    # minX=-10
+    # minValue=100000
 
-    minX=-10
-    minValue=100000
+    # for k,v in d.items():
+    #     if(v < minValue):
+    #         minX = k
+    #         minValue = v
 
-    for k,v in d.items():
-        if(v < minValue):
-            minX = k
-            minValue = v
-
-    resultLabel = minX
+    # resultLabel = minX
 
     resultLabel,count = Counter(dc).most_common(1)[0]    
 
     
-    return (result,resultLabel, querySkel)
+    return (result,resultLabel, querySkelBase64)
 
     
     

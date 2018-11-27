@@ -88,15 +88,16 @@
 
 <body onload="init()">
   <div id="container">
+    <div id="buttonsContainer">
+      <input id="labelInput" type="number" min="0" max="9" value="0" placeholder="Qué numero es?"/>
+      <button onclick="save()">Guardar</button>
+    </div>
     <canvas id="can" width="400" height="400"></canvas>
     <div id="buttonsContainer">
       <button onclick="erase()">Borrar</button>
       <button onclick="query()">Consultar</button>
     </div>
-    <div id="buttonsContainer">
-      <input id="labelInput" type="number" min="0" max="9" value="0" placeholder="Qué numero es?"/>
-      <button onclick="save()">Guardar</button>
-    </div>
+
   </div>
   <div id="response-container">
     <div id="message">Ingresa tu consulta</div>
