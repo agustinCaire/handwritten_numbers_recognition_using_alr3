@@ -188,8 +188,8 @@ def save(base64image,label):
     skeletons.append(skel)
     labels.append(label)
 
-    # labels = labels[:len(labels)-2]
-    # skeletons = skeletons[:len(skeletons)-2]
+    # labels = labels[:len(labels)-1]
+    # skeletons = skeletons[:len(skeletons)-1]
 
 
     np.save("data/labels.npy",labels)
