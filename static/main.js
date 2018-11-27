@@ -51,10 +51,16 @@ function erase() {
     ctx.clearRect(0, 0, w, h);
 }
 
-function save() {
+function query() {
     showMessage('Realizando consulta...', 'info');
     document.getElementById("images-container").style.opacity = "0";
     sendQuery();
+}
+
+function save() {
+    showMessage('Guardando número...', 'info');
+    document.getElementById("images-container").style.opacity = "0";
+    sendSave();
 }
 
 function findxy(res, e) {
@@ -119,6 +125,42 @@ function sendQuery() {
             );
             // document.getElementById("images-container").style.display = "block";
 
+        } else if(httpPost.readyState == 4){
+            console.log(err);
+            showMessage('Error en el servidor', 'error');
+        }
+    };
+    // Set the content type of the request to json since that's what's being sent
+    httpPost.open("POST", path, true);
+    httpPost.setRequestHeader('Content-Type', 'application/json');
+    httpPost.send(data);
+};
+
+function sendSave() {
+    canvas = document.getElementById('can');
+    var base64 = canvas.toDataURL();
+    var label = parseInt(document.getElementById("labelInput").value);
+    var httpPost = new XMLHttpRequest(),
+        path = "http://localhost:5000/save", // path de la api en python
+        data = JSON.stringify({
+            image: base64,
+            label: label,
+        });
+    httpPost.onreadystatechange = function (err) {
+        if (httpPost.readyState == 4 && httpPost.status == 200) {
+            json = JSON.parse(httpPost.responseText);
+            
+            showMessage("Número Guardado", 'success');
+            document.getElementById("images-container").style.opacity = "1";
+            document.getElementById('query').setAttribute(
+                'src', 'data:image/png;base64, '.concat(json.query)
+            );
+            // document.getElementById("images-container").style.display = "block";
+
+            setTimeout(()=>{
+                showMessage('Realizando consulta...', 'info');
+                sendQuery();
+            },0)
         } else if(httpPost.readyState == 4){
             console.log(err);
             showMessage('Error en el servidor', 'error');

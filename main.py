@@ -75,17 +75,25 @@ def printSkeletons(start):
 def main():
     
     skeletons = np.load("data/skeletons.npy")
-    points = logic.extractPointsFromImages(skeletons)
-    samples = len(skeletons)
-    (pointArray, pointLengths) = logic.convertImgPointsToNpArray(points)
+    # points = logic.extractPointsFromImages(skeletons)
+    # samples = len(skeletons)
+    # (pointArray, pointLengths) = logic.convertImgPointsToNpArray(points)
 
-    vectors = logic.calculateImagesVector(pointArray,pointLengths,samples, 10, 10)
+    # vectors = logic.calculateImagesVector(pointArray,pointLengths,samples, 10, 10)
 
-    print(vectors)
-    np.save("data/vectors.npy",vectors)
+    # print(vectors)
+    # np.save("data/vectors.npy",vectors)
 
     printSkeletons(0)
     # printSkeletons(20*10)
+
+    
+
+    # labels = list()
+    # skeletons = list()
+
+    # np.save("data/labels.npy",labels)
+    # np.save("data/skeletons.npy",skeletons)
 
 
 if __name__ == '__main__':

@@ -193,6 +193,9 @@ def convertImgPointsToNpArray(imagesAsPoints):
     
     return (pointsAsArray, pointsLength)
 
+
+
+
 @cuda.jit(debug=True)
 def distance(vectors, dist, query, n):
     index = cuda.blockIdx.x

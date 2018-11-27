@@ -4,7 +4,7 @@ import base64
 from PIL import Image
 import logic
 from collections import Counter, defaultdict
-
+import os
 import io
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
@@ -136,7 +136,6 @@ def processQuery(base64image):
 
 
     for i in range(len(nn)): 
-        print(labels[nn[i][0]])
         output = io.BytesIO()
         img = Image.fromarray(arrayToPILImage(skeletons[nn[i][0]]), 'L')
         img.save(output, format='PNG')
@@ -176,28 +175,32 @@ def processQuery(base64image):
     return (result,resultLabel, querySkel)
 
     
+    
 
 
 
-
-def save(base64image):
-    label = 0
+def save(base64image,label):
 
     skel = imageToSkel(base64image)
-
     labels = list(np.load("data/labels.npy"))
     skeletons = list(np.load("data/skeletons.npy"))
 
     skeletons.append(skel)
     labels.append(label)
 
-    # labels = labels[:len(labels)-1]
-    # skeletons = skeletons[:len(skeletons)-1]
+    # labels = labels[:len(labels)-2]
+    # skeletons = skeletons[:len(skeletons)-2]
 
-    # labels = list()
-    # skeletons = list()
 
     np.save("data/labels.npy",labels)
     np.save("data/skeletons.npy",skeletons)
+
+    points = logic.extractPointsFromImages(skeletons)
+    samples = len(skeletons)
+    (pointArray, pointLengths) = logic.convertImgPointsToNpArray(points)
+
+    vectors = logic.calculateImagesVector(pointArray,pointLengths,samples, 10, 10)
+
+    np.save("data/vectors.npy",vectors)
 
     return imgToBase64(skel)

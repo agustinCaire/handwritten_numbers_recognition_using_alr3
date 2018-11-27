@@ -22,9 +22,7 @@ CORS(app)
 def index():
    return render_template("index.html")
 
-@app.route("/save")
-def saveHtml():
-   return render_template("save.html")
+
 
 @app.route("/query", methods=['POST'])
 def query():
@@ -33,10 +31,10 @@ def query():
 
     return dumps({"images": res, "label": str(label), "query": querySkel})
 
-@app.route("/saveRequest", methods=['POST'])
+@app.route("/save", methods=['POST'])
 def save():
 
-    querySkel = proccessing.save(request.get_json()['image'].split(',')[1])
+    querySkel = proccessing.save(request.get_json()['image'].split(',')[1], request.get_json()['label'])
 
     return dumps({"query": querySkel})
 
