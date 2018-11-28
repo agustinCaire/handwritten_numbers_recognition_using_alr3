@@ -6,7 +6,7 @@ var canvas, ctx, flag = false,
     dot_flag = false;
 
 var x = "black",
-    y = 15;
+    y = 18;
 
 var wating = false,
     label = null;

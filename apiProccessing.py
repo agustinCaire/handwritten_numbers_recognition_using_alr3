@@ -116,6 +116,7 @@ def imageToSkel(base64image):
 
 
 def processQuery(base64image):
+    logic.calculateAllVectors()
 
     data = np.load("data/vectors.npy")
     labels = np.load("data/labels.npy")
@@ -123,44 +124,21 @@ def processQuery(base64image):
     querySkel = imageToSkel(base64image)
     points = logic.extractPointsFromImages([querySkel])
     (pointsArray, pointsLenght) = logic.convertImgPointsToNpArray(points)
-    vectors = logic.calculateImagesVector(pointsArray,pointsLenght,1,10,10)
+    vectors = logic.calculateImagesVector(pointsArray,pointsLenght,1)
     vector = vectors[0]
 
     samples = len(data)
 
-    nn = logic.calculateDistances(data,samples,vector, 3)
+    nn = logic.calculateNN(data,samples,vector)
+    resultLabel = logic.labelByNN(labels,nn)
     
     skeletons = np.load("data/skeletons.npy")
-    
     result = list()
     for i in range(len(nn)): 
         result.append(imgToBase64(skeletons[nn[i][0]]))
-      
     querySkelBase64 = imgToBase64(querySkel)
 
-    resultLabel = nn[0][1]
-    d = defaultdict(float)
-    dc = defaultdict(int)
-    for x in range(0,len(nn)):
-            dc[labels[nn[x][0]]] += 1
-            d[labels[nn[x][0]]] += nn[x][1] + x*0.01
-    for x in range(10):
-            if(dc[x] > 0):
-                d[x] /= dc[x]
 
-    # minX=-10
-    # minValue=100000
-
-    # for k,v in d.items():
-    #     if(v < minValue):
-    #         minX = k
-    #         minValue = v
-
-    # resultLabel = minX
-
-    resultLabel,count = Counter(dc).most_common(1)[0]    
-
-    
     return (result,resultLabel, querySkelBase64)
 
     
@@ -180,16 +158,6 @@ def save(base64image,label):
     # labels = labels[:len(labels)-1]
     # skeletons = skeletons[:len(skeletons)-1]
 
-
-    np.save("data/labels.npy",labels)
-    np.save("data/skeletons.npy",skeletons)
-
-    points = logic.extractPointsFromImages(skeletons)
-    samples = len(skeletons)
-    (pointArray, pointLengths) = logic.convertImgPointsToNpArray(points)
-
-    vectors = logic.calculateImagesVector(pointArray,pointLengths,samples, 10, 10)
-
-    np.save("data/vectors.npy",vectors)
+    logic.calculateAllVectors()
 
     return imgToBase64(skel)

@@ -68,33 +68,16 @@ def printSkeletons(start):
     skeletons = np.load("data/skeletons.npy")
     count = len(skeletons)
 
-    # if(count-start > 200):
-    #     count = 200
-    printMatrixArray(skeletons[start:(start+count)],30,10)
+    printMatrixArray(skeletons,30,10)
 
 def main():
     
-    skeletons = np.load("data/skeletons.npy")
-    # points = logic.extractPointsFromImages(skeletons)
-    # samples = len(skeletons)
-    # (pointArray, pointLengths) = logic.convertImgPointsToNpArray(points)
+    # logic.calculateMinistVectors()
 
-    # vectors = logic.calculateImagesVector(pointArray,pointLengths,samples, 10, 10)
+    accuracy = logic.testMinist() 
+    print(accuracy)
 
-    # print(vectors)
-    # np.save("data/vectors.npy",vectors)
-
-    printSkeletons(0)
-    # printSkeletons(20*10)
-
-    
-
-    # labels = list()
-    # skeletons = list()
-
-    # np.save("data/labels.npy",labels)
-    # np.save("data/skeletons.npy",skeletons)
-
+    # printSkeletons(0)
 
 if __name__ == '__main__':
     main()
