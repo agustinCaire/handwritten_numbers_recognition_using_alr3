@@ -1,10 +1,7 @@
 import numpy as np
-
 import base64
 from PIL import Image
-import logic
 from collections import Counter, defaultdict
-import os
 import io
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
@@ -12,6 +9,7 @@ from skimage.util import invert
 from skimage.morphology import skeletonize
 from skimage.transform import resize
 from skimage import img_as_bool
+import logic
 
 def imgToBase64(img):
     output = io.BytesIO()

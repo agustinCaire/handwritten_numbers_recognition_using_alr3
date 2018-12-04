@@ -1,18 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-import asyncio
-from threading import Thread
 from json import dumps
-
-import apiProccessing as proccessing
 import numpy as np
 
-import base64
-import io
-from matplotlib import pyplot as plt
-import matplotlib.image as mpimg
-from skimage.util import invert
-from skimage.morphology import skeletonize
+import apiProccessing as proccessing
+
 
 
 app = Flask(__name__)

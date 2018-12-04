@@ -47,14 +47,16 @@ def calculateImagesVector(pointsAsArray,pointsLength, samples):
     
     return vectors
 
+
+
 # Extrae los puntos de una imagen binaria
 def extractPointsFromImages(images):
     imagePoints = []
 
     def extractPointsFromImage(image):
         currentPoints = []
-        for row in range(24):
-            for col in range(24):
+        for row in range(len(image)):
+            for col in range(len(image[0])):
                 if(image[row][col] == 0):
                     currentPoints.append((col, row))
         return currentPoints
