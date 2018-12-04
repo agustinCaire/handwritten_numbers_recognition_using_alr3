@@ -158,6 +158,9 @@ def save(base64image,label):
     # labels = labels[:len(labels)-1]
     # skeletons = skeletons[:len(skeletons)-1]
 
+    np.save("data/labels.npy", labels)
+    np.save("data/skeletons.npy", skeletons)
+
     logic.calculateAllVectors()
 
     return imgToBase64(skel)

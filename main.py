@@ -71,13 +71,15 @@ def printSkeletons(start):
     printMatrixArray(skeletons,30,10)
 
 def main():
+
+    print(logic.ministLabelCount())
     
     # logic.calculateMinistVectors()
 
-    accuracy = logic.testMinist() 
-    print(accuracy)
+    # accuracy = logic.testMinist() 
+    # print(accuracy)
 
-    # printSkeletons(0)
+    printSkeletons(0)
 
 if __name__ == '__main__':
     main()

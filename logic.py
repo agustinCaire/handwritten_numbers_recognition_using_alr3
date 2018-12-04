@@ -187,3 +187,14 @@ def testMinist():
             errors += 1
     
     return 100 - (errors / samples * 100)
+
+
+def ministLabelCount():
+    ministLabels = np.load("data/ministLabels.npy")
+
+    counts = np.zeros(10)
+
+    for i in range(len(ministLabels)):
+            counts[ministLabels[i]] += 1
+  
+    return counts
